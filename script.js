@@ -33,7 +33,9 @@ const cartList = document.getElementById("cartList");
 const cartTotal = document.getElementById("cartTotal");
 const cartCount = document.getElementById("cartCount");
 const clearCartBtn = document.getElementById("clearCartBtn");
-
+const minPriceInput=document.getElementById("minPriceInput")
+const maxPriceInput=document.getElementById("maxPriceInput")
+const applyFilterBtn=document.getElementById("applyFilterBtn")
 
 
 
@@ -98,7 +100,7 @@ function renderCart() {
     clearCartBtn.disabled = cart.length === 0;
 
     cart.forEach((product,index) => {
-        clearCartBtn.disabled=false;
+        
         
          const cartItem = document.createElement("p");
          cartItem.textContent = `${product.name} - $${product.price}`;
@@ -117,11 +119,36 @@ function renderCart() {
     });
 
     cartCount.textContent=cart.length
+    
+
+
     //const total = cart.reduce((sum, product) => sum + product.price, 0);
-        const total=cart.reduce((sum,product)=>{
+    const total=cart.reduce((sum,product)=>{
         return sum+product.price
-        },0) 
-        cartTotal.textContent = `Total: $${total}`;
+    },0) 
+    
+    // cartTotal.textContent = `Total: $${total}`;
+
+    let discount=0
+    if(total>=1500){
+            discount=0.1*total
+    }
+    const finalTotal=total-discount
+
+    cartTotal.textContent = `Final Total: $${finalTotal} | discount: $${discount}`;
+
+    if(discount>0){
+        cartTotal.textContent += " | 10% Discount Applied!";
+    }
+
+    let shipping=0
+    if(cart.length > 0 && finalTotal<1000){
+        shipping=50
+    }
+    const amountToPay=finalTotal+shipping
+    cartTotal.textContent += ` | shipping : $${shipping} | AmountToPay : $${amountToPay}`;
+
+0
 }
 
 clearCartBtn.addEventListener("click",()=>{
@@ -133,7 +160,14 @@ clearCartBtn.addEventListener("click",()=>{
 renderCart();
 
 
-
+applyFilterBtn.addEventListener("click",()=>{
+        const minPrice=Number(minPriceInput.value)
+        const maxPrice=Number(maxPriceInput.value)
+        const filteredProducts=products.filter((product)=>{
+            return  (product.price>=minPrice)&&(product.price<=maxPrice)
+        })
+        renderProducts(filteredProducts);
+})
 
 ///////وقتی کاربر چیزی تایپ می‌کنه 
 // محصولاتی که اسمشون شامل اون متن هست جدا کنیم.
@@ -169,10 +203,10 @@ expensiveBtn.addEventListener("click", () => {
 
 
 sortPriceBtn1.addEventListener("click", () => {
-products.sort((a,b) => a.price-b.price)
-renderProducts(products);
+        products.sort((a,b) => a.price-b.price)
+        renderProducts(products);
 })
 sortPriceBtn2.addEventListener("click", () => {
-products.sort((a,b) => b.price-a.price)
-renderProducts(products);
+        products.sort((a,b) => b.price-a.price)
+        renderProducts(products);
 })
