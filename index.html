@@ -7,28 +7,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Tech Store</h1>
+    <button id="toggleFiltersBtn" type="button" aria-expanded="false">☰ Filters</button>
+    <div class="filters">
+        <input  id="searchInput" type="text" placeholder="search products">
+        <button id="stockBtn">In Stock</button>
+        <button id="allProductsBtn">All Products</button>
+        <button id="cheapBtn">Under $500</button>
+        <button id="expensiveBtn">Over $500</button>
+        <input type="number" id="minPriceInput" placeholder="Min Price">
+        <input type="number" id="maxPriceInput" placeholder="Max Price">
+        <button type="button" id="applyFilterBtn">Apply Filter</button>
+        <button id="sortPriceBtn1">Price: Low to High</button>
+        <button id="sortPriceBtn2">Price: High to Low</button>
+    </div>
+
     <div id="productList"></div>
 
-    <input  id="searchInput" type="text" placeholder="search products">
-
-    <button id="stockBtn">In Stock</button>
-    <button id="allProductsBtn">All Products</button>
-    <button id="cheapBtn">Under $500</button>
-    <button id="expensiveBtn">Unper $500</button>
-    <input type="number" id="minPriceInput" placeholder="Min Price">
-    <input type="number" id="maxPriceInput" placeholder="Max Price">
-    <button type="button" id="applyFilterBtn">Apply Filter</button>
-
-    <button id="sortPriceBtn1">Price: Low to High</button>
-    <button id="sortPriceBtn2">Price: High to Low</button>
-
-    <h2>Cart (<span id="cartCount">0</span>)</h2>
-    <div id="cartList"></div>
-    <p id="cartTotal">Total: $0</p>
-
-    <button id="clearCartBtn">Clear Cart</button>
-
-    
+    <div class="cart-section">
+        <h2>Cart (<span id="cartCount">0</span>)</h2>
+        <div id="cartList"></div>
+        <p id="cartTotal">Total: $0</p>
+        <button id="clearCartBtn">Clear Cart</button>
+    </div>
 
 
 

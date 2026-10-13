@@ -1,28 +1,18 @@
 const products = [
-    {
-        id: 1,
-        name: "Laptop",
-        price: 1200,
-        inStock: true
-    },
-    {
-        id: 2,
-        name: "Phone",
-        price: 800,
-        inStock: true
-    },
-    {
-        id: 3,
-        name: "Headphones",
-        price: 150,
-        inStock: false
-    }
+  { id: 1, name: "Laptop", price: 1200, inStock: true },
+  { id: 2, name: "Phone", price: 800, inStock: true },
+  { id: 3, name: "Headphones", price: 150, inStock: false },
+  { id: 4, name: "Smart Watch", price: 300, inStock: true },
+  { id: 5, name: "Keyboard", price: 120, inStock: false },
+  { id: 6, name: "Mouse", price: 50, inStock: true },
+  { id: 7, name: "Monitor", price: 600, inStock: true },
+  { id: 8, name: "Tablet", price: 450, inStock: false },
+  { id: 9, name: "Speaker", price: 200, inStock: true },
+  { id: 10, name: "Camera", price: 950, inStock: false },
 ];
 
-
-
-const productList=document.getElementById("productList");
-const searchInput=document.getElementById("searchInput")
+const productList = document.getElementById("productList");
+const searchInput = document.getElementById("searchInput");
 const stockBtn = document.getElementById("stockBtn");
 const allProductsBtn = document.getElementById("allProductsBtn");
 const cheapBtn = document.getElementById("cheapBtn");
@@ -33,180 +23,210 @@ const cartList = document.getElementById("cartList");
 const cartTotal = document.getElementById("cartTotal");
 const cartCount = document.getElementById("cartCount");
 const clearCartBtn = document.getElementById("clearCartBtn");
-const minPriceInput=document.getElementById("minPriceInput")
-const maxPriceInput=document.getElementById("maxPriceInput")
-const applyFilterBtn=document.getElementById("applyFilterBtn")
-
-
+const minPriceInput = document.getElementById("minPriceInput");
+const maxPriceInput = document.getElementById("maxPriceInput");
+const applyFilterBtn = document.getElementById("applyFilterBtn");
+const toggleFiltersBtn = document.getElementById("toggleFiltersBtn");
+const filtersContainer = document.querySelector(".filters")
 
 const savedCart = localStorage.getItem("cart");
 
 let cart = [];
 
 if (savedCart !== null) {
-    cart = JSON.parse(savedCart);
+  cart = JSON.parse(savedCart);
 }
 
 renderProducts(products);
 
 function renderProducts(productsToShow) {
-    productList.innerHTML = "";
+  productList.innerHTML = "";
 
-    productsToShow.forEach((product) => {
-    const productCard=document.createElement("div")
-    productCard.classList.add("product-card")
+  productsToShow.forEach((product) => {
+    const productCard = document.createElement("div");
+    productCard.classList.add("product-card");
 
-    const productName=document.createElement("h3")
-    const productPrice=document.createElement("p")
-    const productStock=document.createElement("p")
+    const productName = document.createElement("h3");
+    const productPrice = document.createElement("p");
+    const productStock = document.createElement("p");
     const addToCartBtn = document.createElement("button");
-   
-    productName.textContent=product.name
-    productPrice.textContent=`price:$${product.price}`;    
-    productStock.textContent=product.inStock ? "In Stock" : "Out of Stock";
+
+    productName.textContent = product.name;
+    productPrice.textContent = `price:$${product.price}`;
+    productStock.textContent = product.inStock ? "In Stock" : "Out of Stock";
     addToCartBtn.textContent = "Add to Cart";
 
     if (product.inStock === false) {
-          addToCartBtn.disabled = true;
-          addToCartBtn.textContent = "Unavailable";
-     }
-    
+      ///////!product.inStock
+      addToCartBtn.disabled = true;
+      addToCartBtn.textContent = "Unavailable";
+    }
+
     addToCartBtn.addEventListener("click", () => {
-           cart.push(product);
-           localStorage.setItem("cart", JSON.stringify(cart));
-           ///این خط ارایه کارت رو ب صورت رشته تبدیل میکنه و با کلید کارت ذخیره میکنه
-           renderCart();
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      ///این خط ارایه کارت رو ب صورت رشته تبدیل میکنه و با کلید کارت ذخیره میکنه
+      renderCart();
     });
 
-    productCard.appendChild(productName)
-    productCard.appendChild(productPrice)
-    productCard.appendChild(productStock)
+    productCard.appendChild(productName);
+    productCard.appendChild(productPrice);
+    productCard.appendChild(productStock);
     productCard.appendChild(addToCartBtn);
 
-    productList.appendChild(productCard)
-});
+    productList.appendChild(productCard);
+  });
 }
-
 
 function renderCart() {
-    cartList.innerHTML = "";
+  cartList.innerHTML = "";
 
-    if (cart.length===0){
-        let emptyText=document.createElement("p")
-        emptyText.textContent="Your cart is empty"
-         cartList.appendChild(emptyText);
-    }
-   
-    clearCartBtn.disabled = cart.length === 0;
+  if (cart.length === 0) {
+    let emptyText = document.createElement("p");
+    emptyText.textContent = "Your cart is empty";
+    cartList.appendChild(emptyText);
+  }
 
-    cart.forEach((product,index) => {
-        
-        
-         const cartItem = document.createElement("p");
-         cartItem.textContent = `${product.name} - $${product.price}`;
-        
-         const removeBtn = document.createElement("button");
-         removeBtn.textContent = "Remove";
-         cartItem.appendChild(removeBtn);
-         removeBtn.addEventListener("click", () => {
-             cart.splice(index, 1);//////رای حذف، اضافه‌کردن یا جایگزین‌کردن عناصر آرایه
-             localStorage.setItem("cart", JSON.stringify(cart));
-             renderCart();
-        });
+  clearCartBtn.disabled = cart.length === 0;
 
-        cartList.appendChild(cartItem);
+  cart.forEach((product, index) => {
+    const cartItem = document.createElement("p");
+    cartItem.classList.add("cart-item");
+    cartItem.textContent = `${product.name} - $${product.price}`;
 
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    cartItem.appendChild(removeBtn);
+    removeBtn.addEventListener("click", () => {
+      cart.splice(index, 1); //////رای حذف، اضافه‌کردن یا جایگزین‌کردن عناصر آرایه
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
     });
 
-    cartCount.textContent=cart.length
-    
+    cartList.appendChild(cartItem);
+  });
 
+  cartCount.textContent = cart.length;
 
-    //const total = cart.reduce((sum, product) => sum + product.price, 0);
-    const total=cart.reduce((sum,product)=>{
-        return sum+product.price
-    },0) 
-    
-    // cartTotal.textContent = `Total: $${total}`;
+  //const total = cart.reduce((sum, product) => sum + product.price, 0);
+  const total = cart.reduce((sum, product) => {
+    return sum + product.price;
+  },0);
 
-    let discount=0
-    if(total>=1500){
-            discount=0.1*total
-    }
-    const finalTotal=total-discount
+  // cartTotal.textContent = `Total: $${total}`;
 
-    cartTotal.textContent = `Final Total: $${finalTotal} | discount: $${discount}`;
+  let discount = 0;
+  if (total >= 1500) {
+    discount = 0.1 * total;
+  }
+  const finalTotal = total - discount;
 
-    if(discount>0){
-        cartTotal.textContent += " | 10% Discount Applied!";
-    }
+  cartTotal.textContent = `Final Total: $${finalTotal} | discount: $${discount}`;
 
-    let shipping=0
-    if(cart.length > 0 && finalTotal<1000){
-        shipping=50
-    }
-    const amountToPay=finalTotal+shipping
-    cartTotal.textContent += ` | shipping : $${shipping} | AmountToPay : $${amountToPay}`;
+  if (discount > 0) {
+    cartTotal.textContent += " | 10% Discount Applied!";
+  }
 
-0
+  let shipping = 0;
+  if (cart.length > 0 && finalTotal < 1000) {
+    shipping = 50;
+  }
+  const amountToPay = finalTotal + shipping;
+  cartTotal.textContent += ` | shipping : $${shipping} | AmountToPay : $${amountToPay}`;
+
+  0;
 }
 
-clearCartBtn.addEventListener("click",()=>{
-    cart = [];
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCart()
-}) 
+clearCartBtn.addEventListener("click", () => {
+  cart = [];
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+});
 
 renderCart();
 
 
-applyFilterBtn.addEventListener("click",()=>{
-        const minPrice=Number(minPriceInput.value)
-        const maxPrice=Number(maxPriceInput.value)
-        const filteredProducts=products.filter((product)=>{
-            return  (product.price>=minPrice)&&(product.price<=maxPrice)
-        })
-        renderProducts(filteredProducts);
-})
 
-///////وقتی کاربر چیزی تایپ می‌کنه 
+toggleFiltersBtn.addEventListener("click",()=>{
+
+    filtersContainer.classList.toggle("show");
+
+    if (filtersContainer.classList.contains("show")) {
+        toggleFiltersBtn.textContent = "✕ Close Filters";
+        toggleFiltersBtn.setAttribute("aria-expanded", "true");
+    } else {
+        toggleFiltersBtn.textContent = "☰ Filters";
+        toggleFiltersBtn.setAttribute("aria-expanded", "false");
+    }
+
+});
+
+
+
+///تابع بستن فیلتر در منوی همبرگری
+function closeFilters() {
+    filtersContainer.classList.remove("show");
+    toggleFiltersBtn.textContent = "☰ Filters";
+    toggleFiltersBtn.setAttribute("aria-expanded", "false");
+}
+
+//// کاربر بتونه با زدن کلید اسکیپ روی کیبورد، منوی فیلتر رو ببنده
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        closeFilters();
+    }
+});
+
+///////وقتی کاربر چیزی تایپ می‌کنه
 // محصولاتی که اسمشون شامل اون متن هست جدا کنیم.
-
 searchInput.addEventListener("input", () => {
-    const searchValue = searchInput.value.toLowerCase();
+  const searchValue = searchInput.value.toLowerCase();
 
-    const filteredProducts = products.filter((product) => {
-        return product.name.toLowerCase().includes(searchValue);
-    });
+  const filteredProducts = products.filter((product) => {
+    return product.name.toLowerCase().includes(searchValue);
+  });
 
-    renderProducts(filteredProducts);
+  renderProducts(filteredProducts);
 });
 
-stockBtn.addEventListener("click",()=>{
+stockBtn.addEventListener("click", () => {
+  const productStocked = products.filter((product) => product.inStock === true);
 
-    const productStocked = products.filter((product) => product.inStock===true);
-
- renderProducts(productStocked);
-})
-allProductsBtn.addEventListener("click",()=>{
-
-     renderProducts(products);
-})
-cheapBtn.addEventListener("click",()=>{
-    const cheapProduct=products.filter((product) => product.price<500);
-    renderProducts(cheapProduct);
-})
+  renderProducts(productStocked);
+  closeFilters()
+});
+allProductsBtn.addEventListener("click", () => {
+  renderProducts(products);
+  closeFilters()
+});
+cheapBtn.addEventListener("click", () => {
+  const cheapProduct = products.filter((product) => product.price < 500);
+  renderProducts(cheapProduct);
+  closeFilters();
+});
 expensiveBtn.addEventListener("click", () => {
-    const expensiveProducts = products.filter((product) => product.price > 500);
-    renderProducts(expensiveProducts);
+  const expensiveProducts = products.filter((product) => product.price > 500);
+  renderProducts(expensiveProducts);
+  closeFilters();
 });
-
+applyFilterBtn.addEventListener("click", () => {
+  const minPrice = Number(minPriceInput.value);
+  const maxPrice = Number(maxPriceInput.value);
+  const filteredProducts = products.filter((product) => {
+    return product.price >= minPrice && product.price <= maxPrice;
+  });
+  renderProducts(filteredProducts);
+  closeFilters();
+});
 
 sortPriceBtn1.addEventListener("click", () => {
-        products.sort((a,b) => a.price-b.price)
-        renderProducts(products);
-})
+  products.sort((a, b) => a.price - b.price);
+  renderProducts(products);
+  closeFilters();
+});
 sortPriceBtn2.addEventListener("click", () => {
-        products.sort((a,b) => b.price-a.price)
-        renderProducts(products);
-})
+  products.sort((a, b) => b.price - a.price);
+  renderProducts(products);
+  closeFilters();
+});
+

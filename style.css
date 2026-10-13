@@ -1,6 +1,162 @@
+
+h1{
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 30px;
+}
+
+
 .product-card {
     border: 1px solid #ccc;
     padding: 15px;
     margin: 10px;
     border-radius: 10px;
+}
+.product-card{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    width: 200px;
+    transition: transform 0.2s ease;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+}
+.product-card button {
+    background-color: #5485ee;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.product-card button:hover {
+    background-color: #1d4ed8;
+    transition: background-color 0.3s ease;
+}
+.product-card button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+body {
+    background-color: #f5f7fb;
+}
+#productList {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#toggleFiltersBtn{
+    display: none;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#toggleFiltersBtn:hover{
+    background-color: #1d4ed8;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+}
+.filters input {    /*//////////نتخاب‌گر نواده (Descendant Selector*/
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+.filters button{
+    background-color:#e0e7ff;
+    color:#1e3a8a;
+    border:none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.filters button:hover{
+    background-color: #c7d2fe;
+    
+}
+.cart-section{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px ;
+    
+}
+#clearCartBtn{
+    background-color:#ef4444;
+    color:white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#clearCartBtn:hover:not(:disabled){/*//////////////////////*/
+    background-color: #dc2626;
+}
+.cart-section h2{
+    color: #1e3a8a ;
+    margin-bottom:20px;
+}
+.cart-item{
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cart-item remove{
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+.cart-item button{
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color  0.3s  ease;
+}
+.cart-item button:hover{
+    background-color: #fecaca;
+}
+#clearCartBtn:disabled{
+     background-color: #9ca3af;
+     cursor: not-allowed;
+}
+#cartTotal{
+    font-weight: bold;
+    color: #1e3a8a;
+    margin-top: 20px;
+    font-size: 18px;
+}
+@media(max-width: 600px){
+    .product-card{
+        width: 90%;
+    }
+    #toggleFiltersBtn{
+        display: block;
+    }
+    .filters{
+        display: none;
+    }
+    .filters.show{
+        display: flex;
+        flex-direction: column;
+    }
 }
