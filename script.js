@@ -28,6 +28,8 @@ const maxPriceInput = document.getElementById("maxPriceInput");
 const applyFilterBtn = document.getElementById("applyFilterBtn");
 const toggleFiltersBtn = document.getElementById("toggleFiltersBtn");
 const filtersContainer = document.querySelector(".filters")
+const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+const themeToggleBtn = document.getElementById("themeToggleBtn")
 
 const savedCart = localStorage.getItem("cart");
 
@@ -41,6 +43,11 @@ renderProducts(products);
 
 function renderProducts(productsToShow) {
   productList.innerHTML = "";
+
+  if (productsToShow.length === 0) {
+  productList.textContent = "No products found.";
+  return;
+  }
 
   productsToShow.forEach((product) => {
     const productCard = document.createElement("div");
@@ -120,6 +127,7 @@ function renderCart() {
     discount = 0.1 * total;
   }
   const finalTotal = total - discount;
+  const remaining = 1000 - finalTotal;
 
   cartTotal.textContent = `Final Total: $${finalTotal} | discount: $${discount}`;
 
@@ -134,10 +142,17 @@ function renderCart() {
   const amountToPay = finalTotal + shipping;
   cartTotal.textContent += ` | shipping : $${shipping} | AmountToPay : $${amountToPay}`;
 
-  0;
+  if (cart.length > 0 && finalTotal < 1000) {
+  cartTotal.textContent += ` | Add $${remaining} more for free shipping!`;
+  }
+
 }
 
 clearCartBtn.addEventListener("click", () => {
+  const answer = confirm("Are you sure you want to clear the cart?");
+  if (answer === false) {
+  return;
+  }
   cart = [];
   localStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
@@ -161,6 +176,22 @@ toggleFiltersBtn.addEventListener("click",()=>{
 
 });
 
+// 
+themeToggleBtn.addEventListener("click",()=>{
+   document.body.classList.toggle("dark-mode");
+   const isDarkMode = document.body.classList.contains("dark-mode");
+   localStorage.setItem("darkMode", isDarkMode);
+   if (isDarkMode) {
+    themeToggleBtn.textContent = "☀️ Light Mode";
+   } else {
+   themeToggleBtn.textContent = "🌙 Dark Mode";
+}
+})
+const savedTheme = localStorage.getItem("darkMode");
+if (savedTheme === "true") {
+  document.body.classList.add("dark-mode");
+  themeToggleBtn.textContent = "☀️ Light Mode";
+}
 
 
 ///تابع بستن فیلتر در منوی همبرگری
@@ -211,7 +242,11 @@ expensiveBtn.addEventListener("click", () => {
 });
 applyFilterBtn.addEventListener("click", () => {
   const minPrice = Number(minPriceInput.value);
-  const maxPrice = Number(maxPriceInput.value);
+  const maxPrice = maxPriceInput.value === "" ? Infinity : Number(maxPriceInput.value);
+      if (minPrice > maxPrice) {
+           alert("Min Price cannot be greater than Max Price");
+           return;
+      }
   const filteredProducts = products.filter((product) => {
     return product.price >= minPrice && product.price <= maxPrice;
   });
@@ -219,14 +254,22 @@ applyFilterBtn.addEventListener("click", () => {
   closeFilters();
 });
 
-sortPriceBtn1.addEventListener("click", () => {
-  products.sort((a, b) => a.price - b.price);
+resetFiltersBtn.addEventListener("click", () => {
+  minPriceInput.value="";
+  maxPriceInput.value="";
+  searchInput.value = "";
   renderProducts(products);
+});
+
+
+sortPriceBtn1.addEventListener("click", () => {
+  const sortedProducts = [...products].sort((a, b) => a.price - b.price);
+  renderProducts(sortedProducts);
   closeFilters();
 });
 sortPriceBtn2.addEventListener("click", () => {
-  products.sort((a, b) => b.price - a.price);
-  renderProducts(products);
+  const sortedProducts = [...products].sort((a, b) => b.price - a.price);
+  renderProducts(sortedProducts);
   closeFilters();
 });
 

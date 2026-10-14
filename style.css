@@ -4,6 +4,35 @@ h1{
     color: #1e3a8a;
     margin-bottom: 30px;
 }
+body.dark-mode {
+  background-color: #1a1a1a;
+}
+body.dark-mode .product-card {/*////////یعنی: «وقتی body کلاس dark-mode داره، کارت‌های محصول داخلش رو انتخاب کن*/
+  background-color: #2d2d2d;
+  color: white;
+}
+body.dark-mode .cart-section {
+  background-color: #2d2d2d;
+  color: white;
+}
+body.dark-mode .cart-section h2 {
+  color: #93c5fd;
+}
+body.dark-mode .cart-section #cartTotal {
+  color: #93c5fd;
+}
+body.dark-mode .filters {
+  background-color: #2d2d2d;
+  color: white;
+}
+body.dark-mode .filters input {
+  background-color: #3b3b3b;
+  color: white;
+  border: 1px solid #666;
+}
+body.dark-mode .filters input::placeholder {
+  color: #cbd5e1;
+}
 
 
 .product-card {
